@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig',
     'rest_framework',
     'oscarapi',
-    
+
     # 3rd-party apps that oscar depends on
     'widget_tweaks',
     'haystack',
@@ -90,7 +90,7 @@ ROOT_URLCONF = 'VahanKart.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
