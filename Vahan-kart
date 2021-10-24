@@ -1,0 +1,3146 @@
+swagger: '2.0'
+info:
+  title: Vahankart API
+  description: Api description
+  termsOfService: https://www.google.com/policies/terms/
+  contact:
+    email: contact@admin.local
+  license:
+    name: BSD License
+  version: v1
+host: 127.0.0.1:8000
+schemes:
+  - http
+basePath: /
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+  - Basic: []
+paths:
+  /api/:
+    get:
+      operationId: api_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - api
+    parameters: []
+  /api/basket/:
+    get:
+      operationId: api_basket_list
+      description: Api for retrieving a user's basket.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - api
+    parameters: []
+  /api/basket/add-product/:
+    post:
+      operationId: api_basket_add-product_create
+      summary: Add a certain quantity of a product to the basket.
+      description: |-
+        POST(url, quantity)
+        {
+            "url": "http://testserver.org/oscarapi/products/209/",
+            "quantity": 6
+        }
+
+        If you've got some options to configure for the product to add to the
+        basket, you should pass the optional ``options`` property:
+        {
+            "url": "http://testserver.org/oscarapi/products/209/",
+            "quantity": 6,
+            "options": [{
+                "option": "http://testserver.org/oscarapi/options/1/",
+                "value": "some value"
+            }]
+        }
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters: []
+  /api/basket/add-product{format}:
+    post:
+      operationId: api_basket_create
+      summary: Add a certain quantity of a product to the basket.
+      description: |-
+        POST(url, quantity)
+        {
+            "url": "http://testserver.org/oscarapi/products/209/",
+            "quantity": 6
+        }
+
+        If you've got some options to configure for the product to add to the
+        basket, you should pass the optional ``options`` property:
+        {
+            "url": "http://testserver.org/oscarapi/products/209/",
+            "quantity": 6,
+            "options": [{
+                "option": "http://testserver.org/oscarapi/options/1/",
+                "value": "some value"
+            }]
+        }
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/basket/add-voucher/:
+    post:
+      operationId: api_basket_add-voucher_create
+      summary: Add a voucher to the basket.
+      description: |-
+        POST(vouchercode)
+        {
+            "vouchercode": "kjadjhgadjgh7667"
+        }
+
+        Will return 200 and the voucher as json if succesful.
+        If unsuccessful, will return 406 with the error.
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters: []
+  /api/basket/add-voucher{format}:
+    post:
+      operationId: api_basket_create
+      summary: Add a voucher to the basket.
+      description: |-
+        POST(vouchercode)
+        {
+            "vouchercode": "kjadjhgadjgh7667"
+        }
+
+        Will return 200 and the voucher as json if succesful.
+        If unsuccessful, will return 406 with the error.
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/basket/shipping-methods/:
+    get:
+      operationId: api_basket_shipping-methods_list
+      description: Get the available shipping methods and their cost for this order.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - api
+    post:
+      operationId: api_basket_shipping-methods_create
+      description: ''
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters: []
+  /api/basket/shipping-methods{format}:
+    get:
+      operationId: api_basket_read
+      description: Get the available shipping methods and their cost for this order.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - api
+    post:
+      operationId: api_basket_create
+      description: ''
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/baskets/:
+    get:
+      operationId: api_baskets_list
+      description: Retrieve all baskets that belong to the current (authenticated)
+        user.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Basket'
+      tags:
+        - api
+    parameters: []
+  /api/baskets/{basket_pk}/lines/{id}/:
+    get:
+      operationId: api_baskets_lines_read
+      description: |-
+        Only the field `quantity` can be changed in this view.
+        All other fields are readonly.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    put:
+      operationId: api_baskets_lines_update
+      description: |-
+        Only the field `quantity` can be changed in this view.
+        All other fields are readonly.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BasketLine'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    patch:
+      operationId: api_baskets_lines_partial_update
+      description: |-
+        Only the field `quantity` can be changed in this view.
+        All other fields are readonly.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BasketLine'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    delete:
+      operationId: api_baskets_lines_delete
+      description: |-
+        Only the field `quantity` can be changed in this view.
+        All other fields are readonly.
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: basket_pk
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Cart line.
+        required: true
+        type: integer
+  /api/baskets/{basket_pk}/lines/{id}{format}:
+    get:
+      operationId: api_baskets_lines_read
+      description: |-
+        Only the field `quantity` can be changed in this view.
+        All other fields are readonly.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    put:
+      operationId: api_baskets_lines_update
+      description: |-
+        Only the field `quantity` can be changed in this view.
+        All other fields are readonly.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BasketLine'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    patch:
+      operationId: api_baskets_lines_partial_update
+      description: |-
+        Only the field `quantity` can be changed in this view.
+        All other fields are readonly.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BasketLine'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    delete:
+      operationId: api_baskets_lines_delete
+      description: |-
+        Only the field `quantity` can be changed in this view.
+        All other fields are readonly.
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: basket_pk
+        in: path
+        required: true
+        type: string
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Cart line.
+        required: true
+        type: integer
+  /api/baskets/{basket_pk}/lines/{line_pk}/lineattributes/{id}/:
+    get:
+      operationId: api_baskets_lines_lineattributes_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      tags:
+        - api
+    put:
+      operationId: api_baskets_lines_lineattributes_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      tags:
+        - api
+    patch:
+      operationId: api_baskets_lines_lineattributes_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      tags:
+        - api
+    parameters:
+      - name: basket_pk
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Line attribute.
+        required: true
+        type: integer
+      - name: line_pk
+        in: path
+        required: true
+        type: string
+  /api/baskets/{basket_pk}/lines/{line_pk}/lineattributes/{id}{format}:
+    get:
+      operationId: api_baskets_lines_lineattributes_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      tags:
+        - api
+    put:
+      operationId: api_baskets_lines_lineattributes_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      tags:
+        - api
+    patch:
+      operationId: api_baskets_lines_lineattributes_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/LineAttribute'
+      tags:
+        - api
+    parameters:
+      - name: basket_pk
+        in: path
+        required: true
+        type: string
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Line attribute.
+        required: true
+        type: integer
+      - name: line_pk
+        in: path
+        required: true
+        type: string
+  /api/baskets/{id}/:
+    get:
+      operationId: api_baskets_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Basket'
+      tags:
+        - api
+    put:
+      operationId: api_baskets_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Basket'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Basket'
+      tags:
+        - api
+    patch:
+      operationId: api_baskets_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Basket'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Basket'
+      tags:
+        - api
+    delete:
+      operationId: api_baskets_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Cart.
+        required: true
+        type: integer
+  /api/baskets/{id}/lines/:
+    get:
+      operationId: api_baskets_lines_list
+      summary: Api for adding lines to a basket.
+      description: |-
+        Permission will be checked,
+        Regular users may only access their own basket,
+        staff users may access any basket.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    post:
+      operationId: api_baskets_lines_create
+      summary: Api for adding lines to a basket.
+      description: |-
+        Permission will be checked,
+        Regular users may only access their own basket,
+        staff users may access any basket.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BasketLine'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Cart line.
+        required: true
+        type: integer
+  /api/baskets/{id}/lines{format}:
+    get:
+      operationId: api_baskets_read
+      summary: Api for adding lines to a basket.
+      description: |-
+        Permission will be checked,
+        Regular users may only access their own basket,
+        staff users may access any basket.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    post:
+      operationId: api_baskets_create
+      summary: Api for adding lines to a basket.
+      description: |-
+        Permission will be checked,
+        Regular users may only access their own basket,
+        staff users may access any basket.
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/BasketLine'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/BasketLine'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Cart line.
+        required: true
+        type: integer
+  /api/baskets/{id}{format}:
+    get:
+      operationId: api_baskets_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Basket'
+      tags:
+        - api
+    put:
+      operationId: api_baskets_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Basket'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Basket'
+      tags:
+        - api
+    patch:
+      operationId: api_baskets_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Basket'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Basket'
+      tags:
+        - api
+    delete:
+      operationId: api_baskets_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Cart.
+        required: true
+        type: integer
+  /api/baskets{format}:
+    get:
+      operationId: api_read
+      description: Retrieve all baskets that belong to the current (authenticated)
+        user.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Basket'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/basket{format}:
+    get:
+      operationId: api_read
+      description: Api for retrieving a user's basket.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/categories/:
+    get:
+      operationId: api_categories_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+      tags:
+        - api
+    parameters: []
+  /api/categories/{breadcrumbs}/:
+    get:
+      operationId: api_categories_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+      tags:
+        - api
+    parameters:
+      - name: breadcrumbs
+        in: path
+        required: true
+        type: string
+  /api/categories/{id}/:
+    get:
+      operationId: api_categories_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Category'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Category.
+        required: true
+        type: integer
+  /api/categories/{id}{format}:
+    get:
+      operationId: api_categories_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Category'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Category.
+        required: true
+        type: integer
+  /api/categories{format}:
+    get:
+      operationId: api_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/checkout/:
+    post:
+      operationId: api_checkout_create
+      summary: Prepare an order for checkout.
+      description: |-
+        POST(basket, shipping_address,
+             [total, shipping_method_code, shipping_charge, billing_address]):
+        {
+            "basket": "http://testserver/oscarapi/baskets/1/",
+            "guest_email": "foo@example.com",
+            "total": "100.0",
+            "shipping_charge": {
+                "currency": "EUR",
+                "excl_tax": "10.0",
+                "tax": "0.6"
+            },
+            "shipping_method_code": "no-shipping-required",
+            "shipping_address": {
+                "country": "http://127.0.0.1:8000/oscarapi/countries/NL/",
+                "first_name": "Henk",
+                "last_name": "Van den Heuvel",
+                "line1": "Roemerlaan 44",
+                "line2": "",
+                "line3": "",
+                "line4": "Kroekingen",
+                "notes": "Niet STUK MAKEN OK!!!!",
+                "phone_number": "+31 26 370 4887",
+                "postcode": "7777KK",
+                "state": "Gerendrecht",
+                "title": "Mr"
+            }
+            "billing_address": {
+                "country": country_url,
+                "first_name": "Jos",
+                "last_name": "Henken",
+                "line1": "Boerderijstraat 19",
+                "line2": "",
+                "line3": "",
+                "line4": "Zwammerdam",
+                "notes": "",
+                "phone_number": "+31 27 112 9800",
+                "postcode": "6666LL",
+                "state": "Gerendrecht",
+                "title": "Mr"
+             }
+        }
+        returns the order object.
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters: []
+  /api/checkout{format}:
+    post:
+      operationId: api_create
+      summary: Prepare an order for checkout.
+      description: |-
+        POST(basket, shipping_address,
+             [total, shipping_method_code, shipping_charge, billing_address]):
+        {
+            "basket": "http://testserver/oscarapi/baskets/1/",
+            "guest_email": "foo@example.com",
+            "total": "100.0",
+            "shipping_charge": {
+                "currency": "EUR",
+                "excl_tax": "10.0",
+                "tax": "0.6"
+            },
+            "shipping_method_code": "no-shipping-required",
+            "shipping_address": {
+                "country": "http://127.0.0.1:8000/oscarapi/countries/NL/",
+                "first_name": "Henk",
+                "last_name": "Van den Heuvel",
+                "line1": "Roemerlaan 44",
+                "line2": "",
+                "line3": "",
+                "line4": "Kroekingen",
+                "notes": "Niet STUK MAKEN OK!!!!",
+                "phone_number": "+31 26 370 4887",
+                "postcode": "7777KK",
+                "state": "Gerendrecht",
+                "title": "Mr"
+            }
+            "billing_address": {
+                "country": country_url,
+                "first_name": "Jos",
+                "last_name": "Henken",
+                "line1": "Boerderijstraat 19",
+                "line2": "",
+                "line3": "",
+                "line4": "Zwammerdam",
+                "notes": "",
+                "phone_number": "+31 27 112 9800",
+                "postcode": "6666LL",
+                "state": "Gerendrecht",
+                "title": "Mr"
+             }
+        }
+        returns the order object.
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/countries/:
+    get:
+      operationId: api_countries_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Country'
+      tags:
+        - api
+    parameters: []
+  /api/countries/{iso_3166_1_a2}/:
+    get:
+      operationId: api_countries_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Country'
+      tags:
+        - api
+    parameters:
+      - name: iso_3166_1_a2
+        in: path
+        description: A unique value identifying this Country.
+        required: true
+        type: string
+  /api/countries{format}:
+    get:
+      operationId: api_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Country'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/login/:
+    get:
+      operationId: api_login_list
+      description: Api for logging in users.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - api
+    post:
+      operationId: api_login_create
+      description: Api for logging in users.
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    delete:
+      operationId: api_login_delete
+      summary: Destroy the session.
+      description: |-
+        for anonymous users that means having their basket destroyed as well,
+        because there is no way to reach it otherwise.
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters: []
+  /api/login{format}:
+    get:
+      operationId: api_read
+      description: Api for logging in users.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - api
+    post:
+      operationId: api_create
+      description: Api for logging in users.
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    delete:
+      operationId: api_delete
+      summary: Destroy the session.
+      description: |-
+        for anonymous users that means having their basket destroyed as well,
+        because there is no way to reach it otherwise.
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/options/:
+    get:
+      operationId: api_options_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Option'
+      tags:
+        - api
+    parameters: []
+  /api/options/{id}/:
+    get:
+      operationId: api_options_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Option'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Option.
+        required: true
+        type: integer
+  /api/options/{id}{format}:
+    get:
+      operationId: api_options_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Option'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Option.
+        required: true
+        type: integer
+  /api/options{format}:
+    get:
+      operationId: api_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Option'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/orderlineattributes/{id}/:
+    get:
+      operationId: api_orderlineattributes_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/OrderLineAttribute'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Line Attribute.
+        required: true
+        type: integer
+  /api/orderlineattributes/{id}{format}:
+    get:
+      operationId: api_orderlineattributes_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/OrderLineAttribute'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Line Attribute.
+        required: true
+        type: integer
+  /api/orderlines/{id}/:
+    get:
+      operationId: api_orderlines_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/OrderLine'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Order Line.
+        required: true
+        type: integer
+  /api/orderlines/{id}{format}:
+    get:
+      operationId: api_orderlines_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/OrderLine'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Order Line.
+        required: true
+        type: integer
+  /api/orders/:
+    get:
+      operationId: api_orders_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Order'
+      tags:
+        - api
+    parameters: []
+  /api/orders/{id}/:
+    get:
+      operationId: api_orders_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Order'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Order.
+        required: true
+        type: integer
+  /api/orders/{id}/lines/:
+    get:
+      operationId: api_orders_lines_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrderLine'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Order Line.
+        required: true
+        type: integer
+  /api/orders/{id}/lines{format}:
+    get:
+      operationId: api_orders_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrderLine'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Order Line.
+        required: true
+        type: integer
+  /api/orders/{id}{format}:
+    get:
+      operationId: api_orders_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Order'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Order.
+        required: true
+        type: integer
+  /api/orders{format}:
+    get:
+      operationId: api_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Order'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/products/:
+    get:
+      operationId: api_products_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductLink'
+      tags:
+        - api
+    parameters: []
+  /api/products/{id}/:
+    get:
+      operationId: api_products_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Product'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Product.
+        required: true
+        type: integer
+  /api/products/{id}/availability/:
+    get:
+      operationId: api_products_availability_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Availability'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Product.
+        required: true
+        type: integer
+  /api/products/{id}/availability{format}:
+    get:
+      operationId: api_products_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Availability'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Product.
+        required: true
+        type: integer
+  /api/products/{id}/price/:
+    get:
+      operationId: api_products_price_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Price'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Product.
+        required: true
+        type: integer
+  /api/products/{id}/price{format}:
+    get:
+      operationId: api_products_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Price'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Product.
+        required: true
+        type: integer
+  /api/products/{id}/stockrecords/:
+    get:
+      operationId: api_products_stockrecords_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductStockRecord'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Stock record.
+        required: true
+        type: integer
+  /api/products/{id}/stockrecords{format}:
+    get:
+      operationId: api_products_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductStockRecord'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Stock record.
+        required: true
+        type: integer
+  /api/products/{id}{format}:
+    get:
+      operationId: api_products_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Product'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Product.
+        required: true
+        type: integer
+  /api/products/{product_pk}/stockrecords/{id}/:
+    get:
+      operationId: api_products_stockrecords_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/ProductStockRecord'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Stock record.
+        required: true
+        type: integer
+      - name: product_pk
+        in: path
+        required: true
+        type: string
+  /api/products/{product_pk}/stockrecords/{id}{format}:
+    get:
+      operationId: api_products_stockrecords_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/ProductStockRecord'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Stock record.
+        required: true
+        type: integer
+      - name: product_pk
+        in: path
+        required: true
+        type: string
+  /api/products{format}:
+    get:
+      operationId: api_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductLink'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/ranges/:
+    get:
+      operationId: api_ranges_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Range'
+      tags:
+        - api
+    parameters: []
+  /api/ranges/{id}/:
+    get:
+      operationId: api_ranges_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Range'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this Range.
+        required: true
+        type: integer
+  /api/ranges/{id}{format}:
+    get:
+      operationId: api_ranges_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Range'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        description: A unique integer value identifying this Range.
+        required: true
+        type: integer
+  /api/ranges{format}:
+    get:
+      operationId: api_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Range'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/register/:
+    post:
+      operationId: api_register_create
+      summary: API for registering users
+      description: |-
+        POST(email, password1, password2):
+        {
+            "email": "user@my-domain.com",
+            "password1": "MyVerySecretPassword123"
+            "password2": "MyVerySecretPassword123"
+        }
+
+        Will create a new user when the user with the specific email does
+        not exist (HTTP_201_CREATED). It will also send a user_registered signal.
+
+        It won't login the newly created user, You can do this with the login API.
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters: []
+  /api/register{format}:
+    post:
+      operationId: api_create
+      summary: API for registering users
+      description: |-
+        POST(email, password1, password2):
+        {
+            "email": "user@my-domain.com",
+            "password1": "MyVerySecretPassword123"
+            "password2": "MyVerySecretPassword123"
+        }
+
+        Will create a new user when the user with the specific email does
+        not exist (HTTP_201_CREATED). It will also send a user_registered signal.
+
+        It won't login the newly created user, You can do this with the login API.
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/useraddresses/:
+    get:
+      operationId: api_useraddresses_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    post:
+      operationId: api_useraddresses_create
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    parameters: []
+  /api/useraddresses/{id}/:
+    get:
+      operationId: api_useraddresses_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    put:
+      operationId: api_useraddresses_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    patch:
+      operationId: api_useraddresses_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    delete:
+      operationId: api_useraddresses_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+  /api/useraddresses/{id}{format}:
+    get:
+      operationId: api_useraddresses_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    put:
+      operationId: api_useraddresses_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    patch:
+      operationId: api_useraddresses_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    delete:
+      operationId: api_useraddresses_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        required: true
+        type: string
+  /api/useraddresses{format}:
+    get:
+      operationId: api_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    post:
+      operationId: api_create
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/UserAddress'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+  /api/users/{id}/:
+    get:
+      operationId: api_users_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+  /api/users/{id}{format}:
+    get:
+      operationId: api_users_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+      - name: id
+        in: path
+        required: true
+        type: string
+  /api/{format}:
+    get:
+      operationId: api_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: format
+        in: path
+        required: true
+        type: string
+definitions:
+  Voucher:
+    required:
+      - name
+      - code
+      - start_datetime
+      - end_datetime
+    type: object
+    properties:
+      name:
+        title: Name
+        description: This will be shown in the checkout and basket once the coupon
+          is entered
+        type: string
+        maxLength: 128
+        minLength: 1
+      code:
+        title: Code
+        description: Case insensitive / No spaces allowed
+        type: string
+        maxLength: 128
+        minLength: 1
+      start_datetime:
+        title: Start datetime
+        type: string
+        format: date-time
+      end_datetime:
+        title: End datetime
+        type: string
+        format: date-time
+  VoucherDiscount:
+    required:
+      - description
+      - name
+      - amount
+    type: object
+    properties:
+      description:
+        title: Description
+        type: string
+        minLength: 1
+      name:
+        title: Name
+        type: string
+        minLength: 1
+      amount:
+        title: Amount
+        type: string
+        format: decimal
+      voucher:
+        $ref: '#/definitions/Voucher'
+  OfferDiscount:
+    required:
+      - description
+      - name
+      - amount
+    type: object
+    properties:
+      description:
+        title: Description
+        type: string
+        minLength: 1
+      name:
+        title: Name
+        type: string
+        minLength: 1
+      amount:
+        title: Amount
+        type: string
+        format: decimal
+  Basket:
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      owner:
+        title: Owner
+        type: string
+        format: uri
+        x-nullable: true
+      status:
+        title: Status
+        type: string
+        enum:
+          - Open
+          - Merged
+          - Saved
+          - Frozen
+          - Submitted
+      lines:
+        title: Lines
+        type: string
+        format: uri
+        readOnly: true
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      total_excl_tax:
+        title: Total excl tax
+        type: string
+        format: decimal
+      total_excl_tax_excl_discounts:
+        title: Total excl tax excl discounts
+        type: string
+        format: decimal
+      total_incl_tax:
+        title: Total incl tax
+        type: string
+        format: decimal
+      total_incl_tax_excl_discounts:
+        title: Total incl tax excl discounts
+        type: string
+        format: decimal
+      total_tax:
+        title: Total tax
+        type: string
+        format: decimal
+      currency:
+        title: Currency
+        type: string
+        minLength: 1
+      voucher_discounts:
+        type: array
+        items:
+          $ref: '#/definitions/VoucherDiscount'
+      offer_discounts:
+        type: array
+        items:
+          $ref: '#/definitions/OfferDiscount'
+      is_tax_known:
+        title: Is tax known
+        type: string
+        readOnly: true
+  LineAttribute:
+    required:
+      - value
+      - option
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      value:
+        title: Value
+        type: string
+        maxLength: 255
+        minLength: 1
+      option:
+        title: Option
+        type: string
+        format: uri
+  BasketLine:
+    required:
+      - product
+      - basket
+      - stockrecord
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      product:
+        title: Product
+        type: string
+        format: uri
+      quantity:
+        title: Quantity
+        type: integer
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/LineAttribute'
+        readOnly: true
+      price_currency:
+        title: Currency
+        type: string
+        maxLength: 12
+        minLength: 1
+      price_excl_tax:
+        title: Price excl tax
+        type: string
+        format: decimal
+        readOnly: true
+      price_incl_tax:
+        title: Price incl tax
+        type: string
+        format: decimal
+        readOnly: true
+      price_incl_tax_excl_discounts:
+        title: Price incl tax excl discounts
+        type: string
+        format: decimal
+        readOnly: true
+      price_excl_tax_excl_discounts:
+        title: Price excl tax excl discounts
+        type: string
+        format: decimal
+        readOnly: true
+      is_tax_known:
+        title: Is tax known
+        type: string
+        readOnly: true
+      warning:
+        title: Warning
+        type: string
+        readOnly: true
+        minLength: 1
+      basket:
+        title: Cart
+        type: string
+        format: uri
+      stockrecord:
+        title: Stockrecord
+        type: string
+        format: uri
+      date_created:
+        title: Date Created
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        title: Date Updated
+        type: string
+        format: date-time
+        readOnly: true
+  Category:
+    required:
+      - name
+      - slug
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      breadcrumbs:
+        title: Breadcrumbs
+        type: string
+        readOnly: true
+        minLength: 1
+      children:
+        title: Children
+        type: string
+        format: uri
+        readOnly: true
+      name:
+        title: Name
+        type: string
+        maxLength: 255
+        minLength: 1
+      description:
+        title: Description
+        type: string
+      meta_title:
+        title: Meta title
+        type: string
+        maxLength: 255
+        x-nullable: true
+      meta_description:
+        title: Meta description
+        type: string
+        x-nullable: true
+      image:
+        title: Image
+        type: string
+        readOnly: true
+        x-nullable: true
+        format: uri
+      slug:
+        title: Slug
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        maxLength: 255
+        minLength: 1
+      is_public:
+        title: Is public
+        description: Show this category in search results and catalogue listings.
+        type: boolean
+      ancestors_are_public:
+        title: Ancestor categories are public
+        description: The ancestors of this category are public
+        type: boolean
+  Country:
+    required:
+      - printable_name
+      - name
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      iso_3166_1_a3:
+        title: ISO 3166-1 alpha-3
+        type: string
+        maxLength: 3
+      iso_3166_1_numeric:
+        title: ISO 3166-1 numeric
+        type: string
+        maxLength: 3
+      printable_name:
+        title: Country name
+        type: string
+        maxLength: 128
+        minLength: 1
+      name:
+        title: Official name
+        type: string
+        maxLength: 128
+        minLength: 1
+      display_order:
+        title: Display order
+        description: Higher the number, higher the country in the list.
+        type: integer
+      is_shipping_country:
+        title: Is shipping country
+        type: boolean
+  Option:
+    required:
+      - code
+      - name
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      code:
+        title: Code
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        minLength: 1
+      name:
+        title: Name
+        type: string
+        maxLength: 128
+        minLength: 1
+      type:
+        title: Type
+        type: string
+        enum:
+          - text
+          - integer
+          - boolean
+          - float
+          - date
+      required:
+        title: Is this option required?
+        type: boolean
+  OrderLineAttribute:
+    required:
+      - type
+      - value
+      - line
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      type:
+        title: Type
+        type: string
+        maxLength: 128
+        minLength: 1
+      value:
+        title: Value
+        type: string
+        maxLength: 255
+        minLength: 1
+      line:
+        title: Line
+        type: string
+        format: uri
+      option:
+        title: Option
+        type: string
+        format: uri
+        x-nullable: true
+  OrderLine:
+    required:
+      - stockrecord
+      - price_currency
+      - price_excl_tax
+      - price_incl_tax
+      - price_incl_tax_excl_discounts
+      - price_excl_tax_excl_discounts
+      - order
+    type: object
+    properties:
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/OrderLineAttribute'
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      product:
+        title: Product
+        type: string
+        format: uri
+        x-nullable: true
+      stockrecord:
+        title: Stockrecord
+        type: string
+        format: uri
+      quantity:
+        title: Quantity
+        type: integer
+      price_currency:
+        title: Price currency
+        type: string
+        maxLength: 12
+        minLength: 1
+      price_excl_tax:
+        title: Price excl tax
+        type: string
+        format: decimal
+      price_incl_tax:
+        title: Price incl tax
+        type: string
+        format: decimal
+      price_incl_tax_excl_discounts:
+        title: Price incl tax excl discounts
+        type: string
+        format: decimal
+      price_excl_tax_excl_discounts:
+        title: Price excl tax excl discounts
+        type: string
+        format: decimal
+      order:
+        title: Order
+        type: string
+        format: uri
+  InlineBillingAddress:
+    required:
+      - country
+      - line1
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      country:
+        title: Country
+        type: string
+        format: uri
+      title:
+        title: Title
+        type: string
+        enum:
+          - Mr
+          - Miss
+          - Mrs
+          - Ms
+          - Dr
+      first_name:
+        title: First name
+        type: string
+        maxLength: 255
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 255
+      line1:
+        title: First line of address
+        type: string
+        maxLength: 255
+        minLength: 1
+      line2:
+        title: Second line of address
+        type: string
+        maxLength: 255
+      line3:
+        title: Third line of address
+        type: string
+        maxLength: 255
+      line4:
+        title: City
+        type: string
+        maxLength: 255
+      state:
+        title: State/County
+        type: string
+        maxLength: 255
+      postcode:
+        title: Post/Zip-code
+        type: string
+        maxLength: 64
+      search_text:
+        title: Search text - used only for searching addresses
+        type: string
+        readOnly: true
+        minLength: 1
+  InlineShippingAddress:
+    required:
+      - country
+      - line1
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      country:
+        title: Country
+        type: string
+        format: uri
+      title:
+        title: Title
+        type: string
+        enum:
+          - Mr
+          - Miss
+          - Mrs
+          - Ms
+          - Dr
+      first_name:
+        title: First name
+        type: string
+        maxLength: 255
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 255
+      line1:
+        title: First line of address
+        type: string
+        maxLength: 255
+        minLength: 1
+      line2:
+        title: Second line of address
+        type: string
+        maxLength: 255
+      line3:
+        title: Third line of address
+        type: string
+        maxLength: 255
+      line4:
+        title: City
+        type: string
+        maxLength: 255
+      state:
+        title: State/County
+        type: string
+        maxLength: 255
+      postcode:
+        title: Post/Zip-code
+        type: string
+        maxLength: 64
+      search_text:
+        title: Search text - used only for searching addresses
+        type: string
+        readOnly: true
+        minLength: 1
+      phone_number:
+        title: Phone number
+        description: In case we need to call you about your order
+        type: string
+        maxLength: 128
+      notes:
+        title: Instructions
+        description: Tell us anything we should know when delivering your order.
+        type: string
+  InlineSurcharge:
+    required:
+      - name
+      - code
+    type: object
+    properties:
+      name:
+        title: Surcharge
+        type: string
+        maxLength: 128
+        minLength: 1
+      code:
+        title: Surcharge code
+        type: string
+        maxLength: 128
+        minLength: 1
+      incl_tax:
+        title: Surcharge (inc. tax)
+        type: string
+        format: decimal
+      excl_tax:
+        title: Surcharge (excl. tax)
+        type: string
+        format: decimal
+  Order:
+    required:
+      - number
+      - total_incl_tax
+      - total_excl_tax
+      - date_placed
+    type: object
+    properties:
+      number:
+        title: Order number
+        type: string
+        maxLength: 128
+        minLength: 1
+      basket:
+        title: Cart
+        type: string
+        format: uri
+        x-nullable: true
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      lines:
+        title: Lines
+        type: string
+        format: uri
+        readOnly: true
+      owner:
+        title: Owner
+        type: string
+        format: uri
+        readOnly: true
+      billing_address:
+        $ref: '#/definitions/InlineBillingAddress'
+      currency:
+        title: Currency
+        type: string
+        maxLength: 12
+        minLength: 1
+      total_incl_tax:
+        title: Order total (inc. tax)
+        type: string
+        format: decimal
+      total_excl_tax:
+        title: Order total (excl. tax)
+        type: string
+        format: decimal
+      shipping_incl_tax:
+        title: Shipping charge (inc. tax)
+        type: string
+        format: decimal
+      shipping_excl_tax:
+        title: Shipping charge (excl. tax)
+        type: string
+        format: decimal
+      shipping_address:
+        $ref: '#/definitions/InlineShippingAddress'
+      shipping_method:
+        title: Shipping method
+        type: string
+        maxLength: 128
+      shipping_code:
+        title: Shipping code
+        type: string
+        maxLength: 128
+      status:
+        title: Status
+        type: string
+        maxLength: 100
+      email:
+        title: Email
+        type: string
+        format: email
+        readOnly: true
+        minLength: 1
+      date_placed:
+        title: Date placed
+        type: string
+        format: date-time
+      payment_url:
+        title: Payment url
+        type: string
+        readOnly: true
+      offer_discounts:
+        title: Offer discounts
+        type: string
+        readOnly: true
+      voucher_discounts:
+        title: Voucher discounts
+        type: string
+        readOnly: true
+      surcharges:
+        type: array
+        items:
+          $ref: '#/definitions/InlineSurcharge'
+  ProductLink:
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      upc:
+        title: UPC
+        description: Universal Product Code (UPC) is an identifier for a product which
+          is not specific to a particular  supplier. Eg an ISBN for a book.
+        type: string
+        maxLength: 64
+        x-nullable: true
+      title:
+        title: Title
+        type: string
+        maxLength: 255
+  ProductAttributeValue:
+    required:
+      - value
+    type: object
+    properties:
+      name:
+        title: Name
+        type: string
+        readOnly: true
+        minLength: 1
+      value:
+        title: Value
+        type: string
+      code:
+        title: Code
+        type: string
+        readOnly: true
+        minLength: 1
+      product:
+        title: Product
+        type: integer
+  ProductImage:
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      product:
+        title: Product
+        type: integer
+      original:
+        title: Original
+        type: string
+        readOnly: true
+        format: uri
+      caption:
+        title: Caption
+        type: string
+        maxLength: 200
+      display_order:
+        title: Display order
+        description: An image with a display order of zero will be the primary image
+          for a product
+        type: integer
+      date_created:
+        title: Date created
+        type: string
+        format: date-time
+        readOnly: true
+  ChildProductserializer:
+    required:
+      - product_class
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      upc:
+        title: UPC
+        description: Universal Product Code (UPC) is an identifier for a product which
+          is not specific to a particular  supplier. Eg an ISBN for a book.
+        type: string
+        maxLength: 64
+        x-nullable: true
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      title:
+        title: Title
+        type: string
+        maxLength: 255
+      structure:
+        title: Product structure
+        type: string
+        enum:
+          - standalone
+          - parent
+          - child
+      date_created:
+        title: Date created
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        title: Date updated
+        type: string
+        format: date-time
+        readOnly: true
+      recommended_products:
+        type: array
+        items:
+          type: string
+          format: uri
+        uniqueItems: true
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/ProductAttributeValue'
+      categories:
+        type: array
+        items:
+          type: string
+        uniqueItems: true
+      product_class:
+        title: Product class
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        x-nullable: true
+      price:
+        title: Price
+        type: string
+        format: uri
+        readOnly: true
+      availability:
+        title: Availability
+        type: string
+        format: uri
+        readOnly: true
+      options:
+        type: array
+        items:
+          $ref: '#/definitions/Option'
+  Product:
+    required:
+      - product_class
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      upc:
+        title: UPC
+        description: Universal Product Code (UPC) is an identifier for a product which
+          is not specific to a particular  supplier. Eg an ISBN for a book.
+        type: string
+        maxLength: 64
+        x-nullable: true
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      title:
+        title: Title
+        type: string
+        maxLength: 255
+      description:
+        title: Description
+        type: string
+      structure:
+        title: Product structure
+        type: string
+        enum:
+          - standalone
+          - parent
+          - child
+      date_created:
+        title: Date created
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        title: Date updated
+        type: string
+        format: date-time
+        readOnly: true
+      recommended_products:
+        type: array
+        items:
+          type: string
+          format: uri
+        uniqueItems: true
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/ProductAttributeValue'
+      categories:
+        type: array
+        items:
+          type: string
+        uniqueItems: true
+      product_class:
+        title: Product class
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        x-nullable: true
+      images:
+        type: array
+        items:
+          $ref: '#/definitions/ProductImage'
+      price:
+        title: Price
+        type: string
+        format: uri
+        readOnly: true
+      availability:
+        title: Availability
+        type: string
+        format: uri
+        readOnly: true
+      stockrecords:
+        title: Stockrecords
+        type: string
+        format: uri
+        readOnly: true
+      options:
+        type: array
+        items:
+          $ref: '#/definitions/Option'
+      children:
+        type: array
+        items:
+          $ref: '#/definitions/ChildProductserializer'
+  Availability:
+    required:
+      - is_available_to_buy
+      - message
+    type: object
+    properties:
+      is_available_to_buy:
+        title: Is available to buy
+        type: boolean
+      num_available:
+        title: Num available
+        type: integer
+      message:
+        title: Message
+        type: string
+        minLength: 1
+  Price:
+    required:
+      - excl_tax
+    type: object
+    properties:
+      currency:
+        title: Currency
+        type: string
+        default: GBP
+        maxLength: 12
+        minLength: 1
+      excl_tax:
+        title: Excl tax
+        type: string
+        format: decimal
+      incl_tax:
+        title: Incl tax
+        type: string
+        format: decimal
+      tax:
+        title: Tax
+        type: string
+        format: decimal
+  ProductStockRecord:
+    required:
+      - partner_sku
+      - product
+      - partner
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      partner_sku:
+        title: Partner SKU
+        type: string
+        maxLength: 128
+        minLength: 1
+      price_currency:
+        title: Currency
+        type: string
+        maxLength: 12
+        minLength: 1
+      price:
+        title: Price
+        type: string
+        format: decimal
+        x-nullable: true
+      num_in_stock:
+        title: Number in stock
+        type: integer
+        x-nullable: true
+      num_allocated:
+        title: Number allocated
+        type: integer
+        x-nullable: true
+      low_stock_threshold:
+        title: Low Stock Threshold
+        type: integer
+        x-nullable: true
+      date_created:
+        title: Date created
+        type: string
+        format: date-time
+        readOnly: true
+      date_updated:
+        title: Date updated
+        type: string
+        format: date-time
+        readOnly: true
+      product:
+        title: Product
+        type: integer
+      partner:
+        title: Partner
+        type: integer
+  Range:
+    required:
+      - name
+    type: object
+    properties:
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+      name:
+        title: Name
+        type: string
+        maxLength: 128
+        minLength: 1
+      slug:
+        title: Slug
+        type: string
+        format: slug
+        pattern: ^[-a-zA-Z0-9_]+$
+        readOnly: true
+        minLength: 1
+      description:
+        title: Description
+        type: string
+      is_public:
+        title: Is public?
+        description: Public ranges have a customer-facing page
+        type: boolean
+      includes_all_products:
+        title: Includes all products?
+        type: boolean
+      proxy_class:
+        title: Custom class
+        type: string
+        maxLength: 255
+        x-nullable: true
+      date_created:
+        title: Date Created
+        type: string
+        format: date-time
+        readOnly: true
+      included_products:
+        type: array
+        items:
+          title: Included Products
+          type: string
+          format: uri
+        readOnly: true
+        uniqueItems: true
+      excluded_products:
+        type: array
+        items:
+          title: Excluded Products
+          type: string
+          format: uri
+        uniqueItems: true
+      classes:
+        type: array
+        items:
+          title: Product Types
+          type: string
+          format: uri
+        uniqueItems: true
+      included_categories:
+        type: array
+        items:
+          title: Included Categories
+          type: string
+          format: uri
+        uniqueItems: true
+  UserAddress:
+    required:
+      - line1
+      - country
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      title:
+        title: Title
+        type: string
+        enum:
+          - Mr
+          - Miss
+          - Mrs
+          - Ms
+          - Dr
+      first_name:
+        title: First name
+        type: string
+        maxLength: 255
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 255
+      line1:
+        title: First line of address
+        type: string
+        maxLength: 255
+        minLength: 1
+      line2:
+        title: Second line of address
+        type: string
+        maxLength: 255
+      line3:
+        title: Third line of address
+        type: string
+        maxLength: 255
+      line4:
+        title: City
+        type: string
+        maxLength: 255
+      state:
+        title: State/County
+        type: string
+        maxLength: 255
+      postcode:
+        title: Post/Zip-code
+        type: string
+        maxLength: 64
+      search_text:
+        title: Search text - used only for searching addresses
+        type: string
+        readOnly: true
+        minLength: 1
+      phone_number:
+        title: Phone number
+        description: In case we need to call you about your order
+        type: string
+        maxLength: 128
+      notes:
+        title: Instructions
+        description: Tell us anything we should know when delivering your order.
+        type: string
+      is_default_for_shipping:
+        title: Default shipping address?
+        type: boolean
+      is_default_for_billing:
+        title: Default billing address?
+        type: boolean
+      country:
+        title: Country
+        type: string
+        format: uri
+      url:
+        title: Url
+        type: string
+        format: uri
+        readOnly: true
+  User:
+    required:
+      - username
+    type: object
+    properties:
+      username:
+        title: Username
+        description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+          only.
+        type: string
+        pattern: ^[\w.@+-]+$
+        maxLength: 150
+        minLength: 1
+      email:
+        title: Email address
+        type: string
+        format: email
+        maxLength: 254
+      date_joined:
+        title: Date joined
+        type: string
+        format: date-time
+        readOnly: true
