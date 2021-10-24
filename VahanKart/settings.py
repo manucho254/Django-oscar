@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-&e9ojrj635h%^!m2d&e$l9r2g((008ky4x^7-6x%%1-^@sdcyp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'oscar.apps.dashboard.communications.apps.CommunicationsDashboardConfig',
     'oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig',
     'rest_framework',
+    'drf_yasg',
     'oscarapi',
 
     # 3rd-party apps that oscar depends on
@@ -140,7 +141,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -189,3 +189,11 @@ MEDIA_ROOT = BASE_DIR / "media/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+try:
+  from local_settings import *
+except ImportError:
+  pass
+
+
